@@ -18,6 +18,8 @@
 
 #include "setupserverdialog.h"
 
+#include <unistd.h>
+
 namespace Ui {
 class MainWindow;
 }
@@ -39,7 +41,12 @@ private:
     bool if_ready;//是否已经准备好开始/退出/悔棋
     bool if_oppo_ready;//对方是否准备好
     int lasting_withdraw;//连续悔棋次数
+    int oppo_lasting_withdraw;//对方连续悔棋次数
     bool tempstate;//提出悔棋时的状态(able)
+
+    QString load_file_name;//存档文件名
+
+    QTimer* refresher;//每0.1s刷新一次连接状态和活动状态
 
 public slots:
     //Server部分
@@ -61,8 +68,11 @@ public slots:
     void save();//保存当前棋局
     void load();//读取
 
+    void refresh_state();
+
     //Client部分
     void connectServer();
+    void after_connected();
 };
 
 #endif // MAINWINDOW_H

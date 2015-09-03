@@ -81,6 +81,10 @@ void GameArea::mousePressEvent(QMouseEvent *ev){
         int x=(cp.x()/(inteval/2)+1)/2;
         int y=(cp.y()/(inteval/2)+1)/2;
         qDebug()<<x<<" "<<y;
+        if (gamedata.get_stone(x,y)==-1)
+            if_uncolored=true;
+        else
+            if_uncolored=false;
         if (gamedata.set_stone(x,y,player)){
             emit stone_set(x,y,player);
         }
@@ -101,15 +105,18 @@ void GameArea::mouseReleaseEvent(QMouseEvent *ev){
     if (res==this->player){
         emit win_signal();
     }
-    this->able=false;
+    if (if_uncolored){
+        this->able=false;
+        this->remain_time.setHMS(0,0,MAX_TIME,0);
+    }
     }
     }
 }
 
 void GameArea::record_time(){
     total_time = total_time.addMSecs(TIME_PIECE);
+    remain_time = remain_time.addMSecs(-TIME_PIECE);
     if (able){
-        remain_time = remain_time.addMSecs(-TIME_PIECE);
         my_total_time = my_total_time.addMSecs(TIME_PIECE);
     }
     else{

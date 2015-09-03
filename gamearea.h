@@ -10,7 +10,7 @@
 #include <QTime>
 
 #define MAX_TIME 20
-#define TIME_PIECE 100//ms
+#define TIME_PIECE 10//ms
 
 namespace Ui {
 class GameArea;
@@ -44,6 +44,8 @@ private:
     QTime oppo_total_time;//对方总时间
     QTime total_time;//游戏总时间
     QTimer* timer;
+
+    bool if_uncolored;//点击的位置是否在点击前为无色位置
 
 protected:
     void paintEvent(QPaintEvent *ev);
